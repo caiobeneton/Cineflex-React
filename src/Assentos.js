@@ -8,6 +8,8 @@ export default function Assentos() {
     const [assentos, setAssentos] = useState([])
     const [info, setInfo] = useState([])
     const [select, setSelect] = useState([])
+    const [nome, setNome] = useState('')
+    const [CPF, setCPF] = useState('')
 
     useEffect(() => {
         const URL = `https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${idSessao}/seats`
@@ -22,7 +24,7 @@ export default function Assentos() {
 
     function seleciona(cad) {
         if (cad.isAvailable === false) {
-            return
+            alert('Esse assento não está disponível')
         } else if (select.includes(cad.id)) {
             const novo = select.filter((elem) => elem !== cad.id)
             setSelect(novo)
@@ -30,8 +32,6 @@ export default function Assentos() {
             setSelect([...select, cad.id])
         }
     }
-
-    console.log(select)
 
     return (
         <StyledAssentos>
@@ -57,7 +57,13 @@ export default function Assentos() {
                 </Conjunto>
             </Exemplo>
 
-            
+            <Formulario>
+                <label htmlFor='campoNome'>Nome do comprador:</label>
+                <input type='text' value={nome} id='campoNome' onChange={e => setNome(e.target.value)} placeholder="Insira o nome..."></input>
+
+                <label htmlFor="campoCPF">CPF do comprador</label>
+                <input type='text' value={CPF} id='campoCPF' onChange={e => setCPF(e.target.value)} placeholder="Insira os numeros do CPF..."></input>
+            </Formulario>
 
         </StyledAssentos>
     )
@@ -113,4 +119,22 @@ const Conjunto = styled.div`
     flex-direction: column;
     align-items: center;
     margin: 0 10px;
+`
+
+const Formulario = styled.div`
+    font-family: Roboto;
+    font-size: 18px;
+    margin-top: 30px;
+    margin-left: 15px;
+    input {
+        width: 327px;
+        height: 51px;
+        border: 1px solid #D5D5D5;
+        border-radius: 3px;
+        margin-bottom: 15px;
+        font-family: Roboto;
+        font-size: 16px;
+        color: #AFAFAF;
+        padding-left: 5px;
+    }
 `
