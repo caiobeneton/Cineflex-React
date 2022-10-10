@@ -1,6 +1,6 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
-import { Navigate, useParams } from "react-router-dom"
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom"
 import styled from "styled-components"
 
 export default function Assentos() {
@@ -31,19 +31,6 @@ export default function Assentos() {
         }
     }
 
-    function reservar() {
-        const URL = 'https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many'
-        let obj = {
-            ids: select,
-            name: nome,
-            cpf: CPF
-        }
-
-        const promise = axios.post(URL, obj)
-        promise.then(resposta => {
-            Navigate('/sucesso')
-        })
-    }
 
     return (
         <StyledAssentos>
@@ -77,7 +64,10 @@ export default function Assentos() {
                 <input type='text' value={CPF} id='campoCPF' onChange={e => setCPF(e.target.value)} placeholder="Insira os numeros do CPF..."></input>
             </Formulario>
 
-            <Botao onClick={reservar}>Reservar assentos</Botao>
+            <Link to={`/sucesso`}>
+                <Botao>Reservar assentos</Botao>
+            </Link>
+            
 
         </StyledAssentos>
     )
