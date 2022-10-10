@@ -1,12 +1,11 @@
 import axios from "axios"
 import { useEffect, useState } from "react"
-import { useParams } from "react-router-dom"
+import { Navigate, useParams } from "react-router-dom"
 import styled from "styled-components"
 
 export default function Assentos() {
     const { idSessao } = useParams()
     const [assentos, setAssentos] = useState([])
-    const [info, setInfo] = useState([])
     const [select, setSelect] = useState([])
     const [nome, setNome] = useState('')
     const [CPF, setCPF] = useState('')
@@ -16,9 +15,8 @@ export default function Assentos() {
         const promise = axios.get(URL)
 
         promise.then(resposta => {
-            console.log(resposta.data.seats)
+            console.log(resposta.data)
             setAssentos(resposta.data.seats)
-            setInfo(resposta.data)
         })
     }, [idSessao])
 
@@ -31,6 +29,20 @@ export default function Assentos() {
         } else {
             setSelect([...select, cad.id])
         }
+    }
+
+    function reservar() {
+        const URL = 'https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many'
+        let obj = {
+            ids: select,
+            name: nome,
+            cpf: CPF
+        }
+
+        const promise = axios.post(URL, obj)
+        promise.then(resposta => {
+            Navigate('/sucesso')
+        })
     }
 
     return (
@@ -64,6 +76,8 @@ export default function Assentos() {
                 <label htmlFor="campoCPF">CPF do comprador</label>
                 <input type='text' value={CPF} id='campoCPF' onChange={e => setCPF(e.target.value)} placeholder="Insira os numeros do CPF..."></input>
             </Formulario>
+
+            <Botao onClick={reservar}>Reservar assentos</Botao>
 
         </StyledAssentos>
     )
@@ -138,3 +152,18 @@ const Formulario = styled.div`
         padding-left: 5px;
     }
 `
+const Botao = styled.div`
+    width: 225px;
+    height: 42px;
+    background: #E8833A;
+    border-radius: 3px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    color: white;
+`
+
