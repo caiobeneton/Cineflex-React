@@ -45,6 +45,9 @@ const GlobalStyle = createGlobalStyle`
         border-collapse: collapse;
         border-spacing: 0;
     }
+    a:link, a:visited, a:hover, a:active {
+        text-decoration: none;
+    }
 `
 
 export default GlobalStyle
